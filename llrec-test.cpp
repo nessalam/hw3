@@ -73,23 +73,89 @@ void dealloc(Node* head)
 
 int main(int argc, char* argv[])
 {
-    if(argc < 2) {
-        cout << "Please provide an input file" << endl;
-        return 1;
+  if(argc < 2) {
+      cout << "Please provide an input file" << endl;
+      return 1;
+  }
+
+  // -----------------------------------------------
+  // Feel free to update any code below this point
+  // -----------------------------------------------
+  Node* head = readList(argv[1]);
+  cout << "Original list: ";
+  print(head);
+  cout << endl;
+
+  // Test out your linked list code
+  cout << "test 1: llpivot w/ pivot 10" << endl;
+  Node* head1 = readList(argv[1]);
+  Node* smaller1 = NULL;
+  Node* larger1 = NULL;
+
+  llpivot(head1, smaller1, larger1, 10);
+
+  cout << "smaller than 10 list: ";
+  print(smaller1);
+  cout << "larger than 10 list: ";
+  print(larger1);
+  cout << "empty og list, should be empty if it worked lol";
+  print(head1);
+
+  dealloc(smaller1);
+  dealloc(larger1);
+  cout << endl;
+
+  //test to remove even numbers
+  cout << "test 2: using filter to remove even numbers" << endl;
+  Node* head2 = readList(argv[1]);
+
+  struct RemoveEven {
+    bool operator()(int value){
+      return (value%2==0);
     }
+  };
 
-    // -----------------------------------------------
-    // Feel free to update any code below this point
-    // -----------------------------------------------
-    Node* head = readList(argv[1]);
-    cout << "Original list: ";
-    print(head);
+  RemoveEven removeEven;
+  Node* filtered1 = llfilter(head2, removeEven);
+  cout << "og list: ";
+  Node* temp1 = readList(argv[1]);
+  print(temp1);
+  dealloc(temp1);
 
-    // Test out your linked list code
+  cout <<"after even numbers are removed:";
+  print(filtered1);
+  dealloc(filtered1);
 
+  //testing an empty list
+  Node* empty = NULL;
+  Node* smallEmpty = NULL;
+  Node* largeEmpty = NULL;
 
+  llpivot(empty, smallEmpty, largeEmpty, 3);
+  cout << "small empty list ";
+  print(smallEmpty);
+  cout << "large empty list ";
+  print(largeEmpty);
+  cout << "og empty list ";
+  print(empty);
 
-    
-    return 0;
+  //tsting singe eleemnt list
+  Node* single = new Node(7, NULL);
+  Node* smallSingle = NULL;
+  Node* largeSingle = NULL;
 
+  llpivot(single, smallSingle, largeSingle, 5);
+
+  cout << "small single";
+  print(smallSingle);
+  cout << "small single";
+  print(largeSingle);
+  cout << "og single";
+  print(single);
+
+  dealloc(smallSingle);
+  dealloc(largeSingle);
+  cout << endl;
+
+  return 0;
 }
